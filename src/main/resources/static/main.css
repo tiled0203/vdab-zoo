@@ -1,0 +1,11 @@
+.nav-list{
+    list-style: none;
+    display: flex;
+    width: 25%;
+    height: 5%;
+    align-items:center;
+}
+
+.nav-list li{
+    flex: auto;
+}

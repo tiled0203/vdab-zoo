@@ -1,0 +1,71 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: common_header(~{::title},~{::script})">
+    <title>Spring MVC Hello World</title>
+    <script>
+        function showAlert() {
+            $('.toast').toast('show')
+        }
+    </script>
+
+</head>
+<!--execute the javascript function showAlert() when the boolean success is true.
+This function will open the toast alert box, it's because there is no other way to trigger the toast-->
+<body th:attr="onload= ${success}? 'showAlert()': null ">
+<div th:insert="fragments/header :: navbar"></div>
+<div class="container">
+    <!--show alert bas when the boolean success is true    -->
+    <div class="alert alert-warning" role="alert" th:if="${success}">
+        Delete successful!
+    </div>
+    <!--this is the toast box wich will be opened by our javascript code    -->
+    <div aria-live="polite" role="alert" aria-atomic="true"
+         style="position: absolute;  top: 100px; right: 100px; width: 300px; min-height: 200px;">
+        <div class="toast" data-delay="10000">
+            <div class="toast-header">
+                <strong class="mr-auto">Bootstrap</strong>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="toast-body">
+                Delete successful!
+            </div>
+        </div>
+    </div>
+    <h2>All Employees in System</h2>
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Employee Id</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Profession</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!--iterate over our list employees which is given by our Model
+                it works the same as a java for each
+                for(employee : employees){}-->
+        <tr th:each="employee : ${employees}">
+            <!--show values in our variable employee            -->
+            <td th:text="${{employee.id}}">id</td>
+            <td th:text="${{employee.firstName}} ? ${{employee.firstName}} : 'not provided'">first name</td>
+            <td th:text="${{employee.lastName}} ? ${{employee.lastName}} : 'not provided'">last name</td>
+            <td th:text="${{employee.profession}} ? ${{employee.profession.prettyName}} : 'not provided'">
+                profession
+            </td>
+            <td>
+                <!--the {id} will be replaced by the assignment between (id=${employee.id}) after that it navigates to this url   -->
+                <a class="btn btn-primary" type="button" th:href="@{/employee/{id}/edit(id=${employee.id})}">edit</a>
+                <a class="btn btn-warning" type="button" th:href="@{/employee/{id}/delete(id=${employee.id})}">delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!--th:replace will replace the head with the head in our fragment (see fragments/header.html-->
+<!-- :: common_header(~{::title},~{::script}) will get the fragment common_header (so the small html part in our header.html)-->
+<!--the (~{::title},~{::script}) part works like method parameters ~{::title} will send the <title></title> tag to the fragment
+~{::script} the scripts. This is to preserve the tags that are already between our head-->
+<head th:replace="fragments/header :: common_header(~{::title},~{::script})">
+    <meta charset="UTF-8">
+    <title>Employee App</title>
+    <script>
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+        })
+    </script>
+</head>
+<body>
+<div th:insert="fragments/header :: navbar"></div>
+<div class="container">
+    <button type="button" class="btn btn-lg btn-danger"
+            data-toggle="popover" title="Popover title"
+            data-content="And here's some amazing content. It's very engaging. Right?">
+        Click to toggle popover
+    </button>
+    <h1>Welcome to Realdolmen</h1>
+</div>
+</body>
+</html>

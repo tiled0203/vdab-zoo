@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: common_header(~{::title},~{})">
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+<div th:insert="fragments/header :: navbar"></div>
+<div class="container">
+    <form th:action="@{/employee/edit}" method="post">
+        <div class="form-group">
+            <label for="firstName">First name</label>
+            <!--${employee.firstName} is to show the values of the object employee in our ModelMap-->
+            <input type="text" class="form-control" id="firstName" name="firstName" th:value="${employee.firstName}">
+        </div>
+        <div class="form-group">
+            <label for="lastName">Last name</label>
+            <input type="text" class="form-control" id="lastName" name="lastName" th:value="${employee.lastName}">
+        </div>
+        <div class="form-group">
+            <label for="profession">Profession</label> <select class="form-control" id="profession" name="profession">
+            <!--if profession is not null, them we first fill in our select box with professions
+            and then compare the items in this list with the employee.profession that has been given by our model, to select it-->
+            <div th:if="${employee.profession != null}">
+                <option th:each="profession : ${professions}"
+                        th:text="${{profession.prettyName}}"
+                        th:value="${profession}"
+                        th:selected="${profession.prettyName == employee.profession.prettyName}">
+                </option>
+            </div>
+            <!--Because employee.profession can be null we don't want to randomly select an option-->
+            <!--this div only loads a list of profession but the option 'Select profession' is default selected-->
+            <div th:unless="${employee.profession}">
+                <option selected disabled>Select profession</option>
+                <option th:each="profession : ${professions}"
+                        th:text="${{profession.prettyName}}"
+                        th:value="${profession}">
+                </option>
+            </div>
+
+
+        </select>
+
+        </div>
+        <input type="submit" class="btn btn-primary" value="save">
+    </form>
+</div>
+</body>
+</html>

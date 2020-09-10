@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: common_header(~{::title},~{})">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:insert="fragments/header :: navbar"></div>
+<div class="container">
+    <div class="container">
+        <!--th:action defines the url to where to send the data of our form. Our controller will pick this up-->
+        <!--method is to say wich http method it will use-->
+        <form th:action="@{/employee/add}" method="post">
+            <div class="form-group">
+                <label for="firstName">First name</label>
+                <input type="text" class="form-control" id="firstName" name="firstName">
+            </div>
+            <div class="form-group">
+                <label for="lastName">Last name</label>
+                <input type="text" class="form-control" id="lastName" name="lastName">
+            </div>
+<!--            <div class="form-group">-->
+<!--                <label for="profession">Profession</label>-->
+<!--                <select class="form-control" id="profession" name="profession">-->
+<!--                    &lt;!&ndash;th:each will iterate over the ArrayList professions works like for(profession : professions){}-->
+<!--                      ${professions} is to get the value that belongs to the key professions (see out modelMap in our controller)&ndash;&gt;-->
+<!--                    &lt;!&ndash;th:text is what will be displayed as text in our dropdown menu&ndash;&gt;-->
+<!--                    &lt;!&ndash;th:value is the selected object in our dropdown&ndash;&gt;-->
+<!--                    <option th:each="profession : ${professions}"-->
+<!--                            th:text="${{profession.prettyName}}" th:value="${profession}">-->
+<!--                    </option>-->
+<!--                </select>-->
+<!--            </div>-->
+            <div class="form-check" th:each="profession : ${professions}">
+                <input type="radio" name="myRadios" th:field="*{emp.profession}" th:value="${profession}"/>
+                <label class="form-check-label" th:for="${#ids.next('emp.profession')}">
+                    <span th:text="${{profession.prettyName}}"/>
+                </label>
+            </div>
+
+            <input type="submit" class="btn btn-primary" value="save">
+        </form>
+    </div>
+</div>
+</body>
+</html>
