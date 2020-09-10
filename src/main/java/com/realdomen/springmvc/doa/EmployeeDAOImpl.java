@@ -24,7 +24,14 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     @Value(value = "${db.driver}")
     private String driver;
 
+    @Value(value = "${db.username}")
+    private String username;
+
+    @Value(value = "${db.password}")
+    private String password;
+
     private Logger logger = LoggerFactory.getLogger(EmployeeDAOImpl.class);
+
 
     private Connection createConnection() throws SQLException {
         try {
@@ -33,8 +40,8 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             logger.error("Error mysql driver:", e);
         }
         return DriverManager.getConnection(url
-                , "root"
-                , "P@ssw0rd");
+                , username
+                , password);
     }
 
     public List<Employee> getAllEmployees() {
